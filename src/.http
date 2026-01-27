@@ -1,0 +1,32 @@
+POST http://localhost:3001/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Chris",
+    "email": "test@email.com",
+    "age": "30"
+}
+
+###
+DELETE  http://localhost:3001/users HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Chris",
+    "email": "test@email.com",
+    "age": "30"
+}
+
+###
+GET  http://localhost:3001/users HTTP/1.1
+content-type: application/json
+
+
+###
+PATCH http://localhost:3001/users HTTP/1.1
+content-type: application/json
+
+{
+    "id" : "12",
+    "email": "chris@email.com",
+}
