@@ -34,7 +34,7 @@ router.patch("/", (req, res) => {
 
     const updatedUser = users.map((user) => {
         if(user.username === userObj.username) {
-            const newUser = {...user, userObj.email}
+            const newUser = {...user, email: userObj.email}
             return newUser;
         } else {
             return user;
@@ -42,7 +42,9 @@ router.patch("/", (req, res) => {
     }
     )
 
-    return res.send(updatedUser);
+    users = updatedUser;
+    
+    return res.send(users);
 })
 
 router.delete("/", (req, res) => {
