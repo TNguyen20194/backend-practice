@@ -37,13 +37,12 @@ content-type: application/json
 
 
 ###
-GET  http://localhost:3000/notes/2 HTTP/1.1
-content-type: application/json
-
-###
 GET  http://localhost:3000/notes HTTP/1.1
 content-type: application/json
 
+###
+GET  http://localhost:3000/notes/2 HTTP/1.1
+content-type: application/json
 
 ###
 POST  http://localhost:3000/notes HTTP/1.1

@@ -15,6 +15,15 @@ let nextId = 1;
 
 */
 
+const sendResponse = (res, status, message, data = null) => {
+    return res.status(status).send(
+        {
+            msg: message,
+            data: data
+        }
+    )
+}
+
 // GET all notes
 router.get("/", (req, res) => {
     return res.status(200).send({
@@ -26,26 +35,18 @@ router.get("/", (req, res) => {
 // GET one note by ID
 router.get("/:id", (req, res) => {
     const id = Number(req.params.id);
-    
+
     if(isNaN(id)) {
-        return res.status(400).send({
-            msg: "Invalid id. Must be a number"
-        })
+        return sendResponse(res, 400, "Invalid id. Must be a number");
     };
 
     const note = notes.find(note => note.id === id);
 
     if(!note) {
-        return res.status(404).send({
-            msg: "Note not found"
-        })
+        return sendResponse(res, 404, "Note not found")
     };
 
-    return res.status(200).send({
-        msg: "Note found!",
-        data: note
-    })
-
+    return sendResponse(res, 200, "Note found", note);
 });
 
 // CREATE Note
