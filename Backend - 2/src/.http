@@ -1,0 +1,16 @@
+GET  http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+###
+
+POST  http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "id": "18",
+    "username": "Truong",
+    "email": "truong@email.com",
+    "age": "32"
+}
+
+
