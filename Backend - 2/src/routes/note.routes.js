@@ -51,7 +51,36 @@ router.get("/:id", (req, res) => {
 
 // CREATE Note
 router.post("/", (req, res) => {
-    console.log("POST route")
+    const { title, content } = req.body;
+
+    if(!title || !content) {
+        return res.status(400).send({
+            msg: "Title and content are required."
+        })
+    };
+
+    const existingNote = notes.find(note => note.title === title)
+
+    if(existingNote) {
+        return res.status(409).send({
+            msg: "Note already created",
+            data: existingNote
+        })
+    }
+
+    const newNote = {
+        id: nextId++,
+        title,
+        content,
+        archived: false
+    };
+
+    notes = [...notes, newNote];
+
+    return res.status(200).send({
+        msg: "Note created",
+        data: newNote
+    })
 });
 
 // UPDATE note
