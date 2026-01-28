@@ -7,10 +7,34 @@ POST  http://localhost:3000/users HTTP/1.1
 content-type: application/json
 
 {
-    "id": "18",
+    "id": "07",
     "username": "Truong",
     "email": "truong@email.com",
     "age": "32"
 }
+
+###
+DELETE  http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "id": "45",
+    "username": "Johan",
+    "email": "johan@email.com",
+    "age": "20"
+}
+
+###
+PATCH  http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "id": "1",
+    "username": "test",
+    "email": "test201@email.com",
+    "age": "20"
+}
+
+
 
 
