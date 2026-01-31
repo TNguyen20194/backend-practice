@@ -85,7 +85,60 @@ router.post("/", (req, res) => {
 
 // UPDATE note
 router.patch("/:id", (req, res) => {
-    // Body
+    const id = Number(req.params.id);
+
+    if(isNaN(id)) {
+        return sendResponse(res, 400, "Invalid id. Must be a number");
+    };
+
+    const existingNote = notes.find(note => note.id === id);
+
+     if(!existingNote) {
+        return res.status(404).send({
+        msg: "Note not found or already removed."
+    });
+    };
+
+    // Check all possible update fields
+    const { title, content, archived } = req.body;
+
+    if(title === undefined &&
+        content === undefined &&
+        archived === undefined) {
+        return res.status(400).send({
+        msg: "No fields provided to update"
+    });
+    };
+
+    // Early return if nothing changes
+    const alreadyUpdated =
+    (title === undefined || existingNote.title === title) &&
+    (content === undefined || existingNote.content === content) &&
+    (archived === undefined || existingNote.archived === archived)
+
+    if(alreadyUpdated) {
+        return res.status(409).send({
+         message: "No changes detected. Note already up to date."
+    });
+    };
+
+    notes = notes.map(note => {
+        if(note.id !== id) return note;
+
+        return {
+            ...note,
+            title: title !== undefined ? title : note.title,
+            content: content !== undefined ? content : note.content,
+            archived: archived !== undefined ? archived : note.archived
+        };
+    });
+
+        const updatedNote = notes.find(note => note.id === id)
+
+        return res.status(200).send({
+            message: "Note successfully updated",
+            data: updatedNote
+        });
 });
 
 // DELETE note
