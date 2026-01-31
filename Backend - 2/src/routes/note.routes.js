@@ -46,7 +46,7 @@ router.get("/:id", (req, res) => {
         return sendResponse(res, 404, "Note not found")
     };
 
-    return sendResponse(res, 200, "Note found", note);
+    return sendResponse(res, 200, "Note with matching id found", note);
 });
 
 // CREATE Note
@@ -96,9 +96,9 @@ router.delete("/:id", (req, res) => {
         return sendResponse(res, 400, "Invalid id. Must be a number");
     };
 
-    const existingNote = notes.find(note => note.id === id);
+    const noteToDelete = notes.find(note => note.id === id);
 
-    if(!existingNote) {
+    if(!noteToDelete) {
         return res.status(404).send({
         msg: "Note not found or already removed."
     });
@@ -110,7 +110,7 @@ router.delete("/:id", (req, res) => {
 
     return res.status(200).send({
         msg: "Note successfully removed.",
-        data: notes
+        data: noteToDelete
     });
 
 });
