@@ -49,7 +49,7 @@ POST  http://localhost:3000/notes HTTP/1.1
 content-type: application/json
 
 {
-    "title": "My firtst note",
+    "title": "My first note",
     "content": "Learning Express"
 }
 
@@ -62,12 +62,11 @@ content-type: application/json
 }
 
 ###
-DELETE  http://localhost:3000/notes HTTP/1.1
+DELETE  http://localhost:3000/notes/1 HTTP/1.1
 content-type: application/json
 
 {
-    "title": "My firtst note",
-    "content": "Learning Express"
+    "id": "1"
 }
 
 

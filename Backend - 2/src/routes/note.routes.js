@@ -90,7 +90,29 @@ router.patch("/:id", (req, res) => {
 
 // DELETE note
 router.delete("/:id", (req, res) => {
-    // Body
+    const id = Number(req.params.id);
+
+    if(isNaN(id)) {
+        return sendResponse(res, 400, "Invalid id. Must be a number");
+    };
+
+    const existingNote = notes.find(note => note.id === id);
+
+    if(!existingNote) {
+        return res.status(404).send({
+        msg: "Note not found or already removed."
+    });
+    };
+
+    const filteredNotes = notes.filter(note => note.id !== id);
+
+    notes = filteredNotes;
+
+    return res.status(200).send({
+        msg: "Note successfully removed.",
+        data: notes
+    });
+
 });
 
 export default router;
