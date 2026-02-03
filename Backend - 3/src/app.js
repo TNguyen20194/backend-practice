@@ -1,20 +1,13 @@
 import express from "express"
 import cors from "cors"
-import supabase from "./client/client.js";
+import UserRouter from "./routes/user.routes.js"
 
 const app = express();
 
 app.use(express.json());
 app.use(cors())
 
-
-app.get("/users", async (req, res) => {
-    const { data, error } = await supabase
-    .from("users")
-    .select();
-
-    console.log(data)
-});
+app.use("/users", UserRouter)
 
 app.post("/signup/", async (req, res) => {
     const user = req.body;
