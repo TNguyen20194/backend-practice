@@ -8,9 +8,9 @@ POST http://localhost:3000/users/signup HTTP/1.1
 content-type: application/json
 
 {
-    "first_name": "Truong",
+    "first_name": "Adam",
     "last_name": "Nguyen",
-    "email": "truong.nguyen@email.com",
+    "email": "ada.nguyen@email.com",
     "password": "password1234"
 }
 

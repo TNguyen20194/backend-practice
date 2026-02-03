@@ -14,17 +14,55 @@ router.get("/", async (req, res) => {
 
 router.post("/signup", async(req, res) => {
     const user = req.body;
-
     console.log(user)
 
-      // validate if user already exists, then return early
+    const { first_name, last_name, email, password } = user;
 
-    const {data, error } = await supabase
+    if(!first_name || !last_name || !email || !password) {
+        return res.status(404).send({
+            msg: "Missing required fields."
+        })
+    };
+
+    // validate if user already exists, then return early
+    const { data: existingUsers, error } = await supabase
+    .from("users")
+    .select("id")
+    .eq("email", email)
+
+    console.log("validate data:", existingUsers)
+
+    if(error) {
+        console.error(error)
+        return res.status(500).send({
+            msg: "Failed to check existing users"
+        })
+    }
+
+    //Validate if user exists
+    if(existingUsers.length > 0) {
+        return res.status(409).send({
+            msg: "User already exists with the provided email address"
+        })
+    }
+    
+    const {data, error: insertError } = await supabase
     .from("users")
     .insert(user)
     .select();
 
-    console.log(data)
+    if(insertError) {
+        console.error(insertError)
+        return res.status(500).send({
+            msg: "Failed to create user"
+        })
+    };
+
+    return res.status(200).send({
+        msg: "User created successfully",
+        data: data[0]
+    })
+
 });
 
 
