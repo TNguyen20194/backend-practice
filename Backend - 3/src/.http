@@ -16,9 +16,9 @@ content-type: application/json
 
 ###
 
-DELETE http://localhost:3000/users/1 HTTP/1.1
+DELETE http://localhost:3000/users/5 HTTP/1.1
 content-type: application/json
 
 {
-   "id" : 1
+   "id" : 45
 }

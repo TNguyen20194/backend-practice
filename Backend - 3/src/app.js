@@ -10,17 +10,4 @@ app.use(cors())
 app.use("/users", UserRouter)
 
 
-// app.post("/login", async (req, res) => {
-//     const user = req.body;
-
-//     // validate if user already exists, then return early
-
-//     const { data, error } = await supabase
-//     .from("users")
-//     .insert(user)
-//     .select();
-
-//     console.log(data)
-// });
-
 export default app;
