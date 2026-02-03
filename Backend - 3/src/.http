@@ -2,3 +2,23 @@ GET  http://localhost:3000/users HTTP/1.1
 content-type: application/json
 
 ###
+
+
+POST http://localhost:3000/users/signup HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "Truong",
+    "last_name": "Nguyen",
+    "email": "truong.nguyen@email.com",
+    "password": "password1234"
+}
+
+###
+
+DELETE http://localhost:3000/users/1 HTTP/1.1
+content-type: application/json
+
+{
+   "id" : 1
+}

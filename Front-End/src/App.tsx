@@ -8,8 +8,6 @@ function App() {
   function handleChange(e) {
     const {name, value} = e.target;
 
-    console.log(`key: ${name}, value: ${value}`)
-
     setFormInput(prev => (
       {...prev,
         [name]: value
@@ -28,7 +26,7 @@ function App() {
     };
 
     try{
-      const response = await fetch("http://localhost:3000/signup", requestOptions);
+      const response = await fetch("http://localhost:3000/users/signup", requestOptions);
 
       if(!response.ok) {
         throw new Error("Cannot process user signup")

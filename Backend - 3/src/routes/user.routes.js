@@ -12,5 +12,19 @@ router.get("/", async (req, res) => {
 });
 
 
+router.post("/signup", async(req, res) => {
+    const user = req.body;
+
+    console.log(user)
+
+      // validate if user already exists, then return early
+
+    const {data, error } = await supabase
+    .from("users")
+    .insert(user)
+    .select();
+
+    console.log(data)
+})
 
 export default router;
