@@ -12,7 +12,8 @@ function App() {
 
     setFormInput(prev => (
       {...prev,
-        [name]: value}
+        [name]: value
+      }
       )
     )
   }
