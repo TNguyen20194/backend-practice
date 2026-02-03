@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 
 router.post("/", (req,res) => {
     const userObj = req.body;
- 
+
     if(!userObj || !userObj.username) {
         return res.status(400).send({
             message: "No username was sent with this request"
