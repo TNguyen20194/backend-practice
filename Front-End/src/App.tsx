@@ -1,11 +1,23 @@
 import { useState } from 'react'
-import type { FormEvent } from "react";
+import type { FormEvent, ChangeEvent, SubmitEvent} from "react";
 import './App.css'
 
-function App() {
-  const [formInput, setFormInput] = useState({first_name: "", last_name:"", email: "", password: ""});
+interface FormData {
+  first_name: string,
+  last_name: string,
+  email: string,
+  password: string
+}
 
-  function handleChange(e) {
+function App() {
+  const [formInput, setFormInput] = useState<FormData>({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: "",
+  });
+
+  function handleChange(e: ChangeEvent<HTMLFormElement>) {
     const {name, value} = e.target;
 
     setFormInput(prev => (
@@ -16,7 +28,7 @@ function App() {
     )
   }
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
    const requestOptions = {
