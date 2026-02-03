@@ -16,6 +16,7 @@ function App() {
     email: "",
     password: "",
   });
+  const [error, setError] = useState<string | null>(null)
 
   function handleChange(e: ChangeEvent<HTMLFormElement>) {
     const {name, value} = e.target;
@@ -31,6 +32,8 @@ function App() {
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
+   setError(null);
+
    const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,11 +48,11 @@ function App() {
       console.log(data)
 
       if(!response.ok) {
-        throw new Error(data.msg)
+        setError(data.msg)
       };
 
-    } catch(err) {
-      console.error(err)
+    } catch {
+      setError("Something went wrong. Please try again")
     }
   }
 
@@ -79,6 +82,9 @@ function App() {
           <input type="password" name="password" placeholder="Enter password" />
           </div>
           <button type="submit">Submit</button>
+          <div>
+            {error && <p style={{color: "red"}}>{error}</p>}
+          </div>
         </form>
 
         <form action="">
