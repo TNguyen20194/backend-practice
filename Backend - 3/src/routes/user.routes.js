@@ -66,18 +66,43 @@ router.post("/signup", async(req, res) => {
 });
 
 
-// app.post("/login", async (req, res) => {
-//     const user = req.body;
+router.post("/login", async (req, res) => {
+    const dataObj = req.body;
 
-//     // validate if user already exists, then return early
+    const { email, password } = dataObj;
 
-//     const { data, error } = await supabase
-//     .from("users")
-//     .insert(user)
-//     .select();
+    if(!email || !password) {
+        return res.status(404).send({
+            msg: "Missing required fields."
+        })
+    };
 
-//     console.log(data)
-// });
+    const {data: existingUsers, error} = await supabase
+    .from("users")
+    .select("id")
+    .eq("email", email);
+
+    if(error) {
+        console.error(error);
+        return res.status(500).send({
+            msg: "Login failed."
+        })
+    };
+
+    if(!existingUsers) {
+        return res.status(401).send({
+            msg: "Invalid email or password"
+        })
+    };
+
+    const user = existingUsers;
+
+    console.log("check user: ", user)
+
+    //Compare user's email and password from form agains the data in the database
+    // IF credentials don't match, return an error
+    // IF credentials match, return 200
+});
 
 
 router.delete("/:id", async(req, res) => {
