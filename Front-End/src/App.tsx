@@ -2,65 +2,111 @@ import { useState } from 'react'
 import type { FormEvent, ChangeEvent, SubmitEvent} from "react";
 import './App.css'
 
-interface FormData {
+interface SignUpData {
   first_name: string,
   last_name: string,
   email: string,
   password: string
+};
+
+interface LoginData {
+  email: string,
+  password: string
 }
 
+
 function App() {
-  const [formInput, setFormInput] = useState<FormData>({
+  const [formSignupInput, setformSignupInput] = useState<SignUpData>({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
   });
-  const [error, setError] = useState<string | null>(null)
 
-  function handleChange(e: ChangeEvent<HTMLFormElement>) {
+  const [formLoginInput, setFormLoginInput] = useState<LoginData>({
+    email: "",
+    password: "",
+  });
+
+  const [signupError, setSignupError] = useState<string | null>(null);
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  function handleSignupChange(e: ChangeEvent<HTMLFormElement>) {
     const {name, value} = e.target;
 
-    setFormInput(prev => (
+    setformSignupInput(prev => (
       {...prev,
         [name]: value
       }
       )
     )
+  };
+
+  function handleLoginChange(e: ChangeEvent<HTMLFormElement>) {
+    const {name, value} = e.target;
+
+    setFormLoginInput(prev => ({
+      ...prev,
+      [name]: value
+    })
+  )
   }
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSignupSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
-   setError(null);
+   setSignupError(null);
 
-   const requestOptions = {
+   const requestSignupOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formInput) // Convert the data to a JSON string
+      body: JSON.stringify(formSignupInput) // Convert the data to a JSON string
     };
 
     try{
-      const response = await fetch("http://localhost:3000/users/signup", requestOptions);
+      const response = await fetch("http://localhost:3000/users/signup", requestSignupOptions);
 
       const data = await response.json();
 
       console.log(data)
 
       if(!response.ok) {
-        setError(data.msg)
+        setSignupError(data.msg)
       };
 
     } catch {
-      setError("Something went wrong. Please try again")
+      setSignupError("Something went wrong. Please try again.")
     }
-  }
+  };
+
+  const handleLoginSubmit = async (e: SubmitEvent) => {
+    e.preventDefault();
+
+    const requestLoginOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formLoginInput) // Convert the data to a JSON string
+    };
+
+    try {
+      const resposne = await fetch("http://localhost:3000/users/login", requestLoginOptions);
+
+      const data = await resposne.json();
+
+      if(!data.ok) {
+        setLoginError(data.msg)
+      };
+
+    } catch {
+      setLoginError("Something went wrong. Please try again.")
+    }
+  };
 
   return (
     <>
       <div>
         <h1>Sign Up & Login</h1>
-        <form action="" onChange={handleChange} onSubmit={handleSubmit} method="POST">
+        <form action="" onChange={handleSignupChange} onSubmit={handleSignupSubmit} method="POST">
           <h2>Sign Up</h2>
           <div>
             <label htmlFor="first_name">First Name</label>
@@ -81,13 +127,13 @@ function App() {
            <label htmlFor="password">Password</label>
           <input type="password" name="password" placeholder="Enter password" />
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit">Sign Up</button>
           <div>
-            {error && <p style={{color: "red"}}>{error}</p>}
+            {signupError && <p style={{color: "red"}}>{signupError}</p>}
           </div>
         </form>
 
-        <form action="">
+        <form action="" onChange={handleLoginChange} onSubmit={handleLoginSubmit}>
           <h2>Login</h2>
             <div>
            <label htmlFor="email">Email</label>
@@ -97,6 +143,11 @@ function App() {
           <div>
            <label htmlFor="password">Password</label>
           <input type="password" name="password" placeholder="Enter password" />
+          </div>
+
+          <button type="submit">Login</button>
+          <div>
+            {loginError && <p style={{color: "red"}}>{loginError}</p>}
           </div>
         </form>
       </div>
