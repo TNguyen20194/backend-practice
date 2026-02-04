@@ -10,15 +10,28 @@ content-type: application/json
 {
     "first_name": "Adam",
     "last_name": "Nguyen",
-    "email": "ada.nguyen@email.com",
+    "email": "adam.nguyen@email.com",
     "password": "password1234"
 }
 
 ###
 
-DELETE http://localhost:3000/users/5 HTTP/1.1
+
+###
+
+
+POST http://localhost:3000/users/login HTTP/1.1
 content-type: application/json
 
 {
-   "id" : 5
+    "email": "adam.nguyen@email.com",
+    "password": "password1234"
 }
+
+###
+
+DELETE http://localhost:3000/users/15 HTTP/1.1
+content-type: application/json
+
+{
+   "id" : 15}

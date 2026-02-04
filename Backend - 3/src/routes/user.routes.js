@@ -80,7 +80,9 @@ router.post("/login", async (req, res) => {
     const {data: existingUsers, error} = await supabase
     .from("users")
     .select("id")
-    .eq("email", email);
+    .match({email: email, password: password});
+
+    console.log(existingUsers.length)
 
     if(error) {
         console.error(error);
@@ -89,19 +91,16 @@ router.post("/login", async (req, res) => {
         })
     };
 
-    if(!existingUsers) {
+    if(!existingUsers || existingUsers.length === 0) {
         return res.status(401).send({
             msg: "Invalid email or password"
         })
     };
 
-    const user = existingUsers;
-
-    console.log("check user: ", user)
-
-    //Compare user's email and password from form agains the data in the database
-    // IF credentials don't match, return an error
-    // IF credentials match, return 200
+    return res.status(200).send({
+        msg: "Login successfully",
+        data: existingUsers
+    })
 });
 
 
