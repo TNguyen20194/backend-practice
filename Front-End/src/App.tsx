@@ -30,6 +30,7 @@ function App() {
 
   const [signupError, setSignupError] = useState<string | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<any []>([]);
 
   function handleSignupChange(e: ChangeEvent<HTMLFormElement>) {
     const {name, value} = e.target;
@@ -96,6 +97,9 @@ function App() {
       if(!data.ok) {
         setLoginError(data.msg)
       };
+      console.log(data)
+
+      setUserInfo(data.data)
 
     } catch {
       setLoginError("Something went wrong. Please try again.")
@@ -149,6 +153,7 @@ function App() {
           <div>
             {loginError && <p style={{color: "red"}}>{loginError}</p>}
           </div>
+          {userInfo[0]?.email}
         </form>
       </div>
     </>
@@ -156,3 +161,12 @@ function App() {
 }
 
 export default App
+
+/*
+HOMEWORK:
+
+AUTHENTICATING ROUTE (PROTECTING ROUTE)
+
+JWT!!
+
+*/
