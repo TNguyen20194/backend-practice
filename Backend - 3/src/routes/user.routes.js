@@ -1,5 +1,6 @@
 import { Router } from "express";
 import supabase from "../client/client.js";
+import userController from "../controllers/user.controller.js";
 
 const router = Router();
 
@@ -24,32 +25,8 @@ router.post("/signup", async(req, res) => {
         })
     };
 
-    // validate if user already exists, then return early
-    const { data: existingUsers, error } = await supabase
-    .from("users")
-    .select("id")
-    .eq("email", email)
+    const { data, insertError } =  await userController.signUp(first_name, last_name, email, password);
 
-    console.log("validate data:", existingUsers)
-
-    if(error) {
-        console.error(error)
-        return res.status(500).send({
-            msg: "Failed to check existing users"
-        })
-    }
-
-    //Validate if user exists
-    if(existingUsers.length > 0) {
-        return res.status(409).send({
-            msg: "User already exists with the provided email address"
-        })
-    }
-    
-    const {data, error: insertError } = await supabase
-    .from("users")
-    .insert(user)
-    .select();
 
     if(insertError) {
         console.error(insertError)
@@ -60,7 +37,7 @@ router.post("/signup", async(req, res) => {
 
     return res.status(200).send({
         msg: "User created successfully",
-        data: data[0]
+        data: data
     })
 
 });
@@ -77,12 +54,7 @@ router.post("/login", async (req, res) => {
         })
     };
 
-    const {data: existingUsers, error} = await supabase
-    .from("users")
-    .select("id")
-    .match({email: email, password: password});
-
-    console.log(existingUsers.length)
+   const { existingUsers, error} =  await userController.signIn(email, password);
 
     if(error) {
         console.error(error);
