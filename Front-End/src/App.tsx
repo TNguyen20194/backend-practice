@@ -162,11 +162,3 @@ function App() {
 
 export default App
 
-/*
-HOMEWORK:
-
-AUTHENTICATING ROUTE (PROTECTING ROUTE)
-
-JWT!!
-
-*/

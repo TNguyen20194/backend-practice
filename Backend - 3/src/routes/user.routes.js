@@ -42,6 +42,38 @@ router.post("/signup", async(req, res) => {
 
 });
 
+/*
+
+AUTHENTICATING ROUTE (PROTECTING ROUTE)
+
+> Authentication middleware that intercepts requests to verify user identity
+(email) and permission (password) BEFORE allowing access to the route handler
+
+Middleware
+> function authenticateUser
+
+const auth = (req, res, next) => {
+  if (req.session && req.session.user) {
+    return next(); // User is logged in
+  }
+  return res.status(401).send('Unauthorized'); // Block access
+};
+
+app.get('/dashboard', auth, (req, res) => {
+  res.send('Welcome to your protected dashboard');
+});
+
+JWT!!
+
+*/
+
+
+// app.use("/users", authenticateUser? ,UserRouter)
+
+
+
+// const authenticateUser = (req, res, next) => {}
+//router.post("/login", authenticateUser?, async(req, res) => {})
 
 router.post("/login", async (req, res) => {
     const dataObj = req.body;
@@ -118,3 +150,6 @@ router.delete("/:id", async(req, res) => {
 })
 
 export default router;
+
+
+
